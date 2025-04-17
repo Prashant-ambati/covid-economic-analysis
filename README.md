@@ -1,27 +1,29 @@
-# COVID-19 Economic Impact Analysis Dashboard
+# COVID-19 Economic Impact Analysis
 
-This dashboard provides an interactive analysis of COVID-19's impact on economic indicators in the United States. It visualizes the relationship between COVID-19 cases and various economic metrics, offering insights into the pandemic's economic effects.
+This project analyzes the economic impact of COVID-19 using data visualization and statistical analysis.
 
-## Features
+## Project Structure
 
-- Interactive COVID-19 case analysis with daily trends
-- Regional distribution map of COVID-19 cases
-- Economic indicators visualization
-- Correlation analysis between COVID-19 and economic metrics
-- Economic forecast predictions
-- Key insights and findings
+```
+covid_economic_analysis/
+├── app.py              # Main Dash application
+├── data/               # Data directory
+├── requirements.txt    # Python dependencies
+├── runtime.txt        # Python version specification
+└── README.md          # Project documentation
+```
 
-## Installation
+## Setup
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/yourusername/covid_economic_analysis.git
 cd covid_economic_analysis
 ```
 
 2. Create and activate a virtual environment:
 ```bash
-python -m venv venv
+python3.11 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
@@ -30,27 +32,28 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## Running the Application
-
-1. Start the application:
+4. Run the application:
 ```bash
-python src/app.py
+python app.py
 ```
 
-2. Open your web browser and navigate to:
-```
-http://localhost:8050
-```
+The application will be available at `http://localhost:8050`
 
-## Deployment
+## Features
 
-This application is configured for deployment on Render. The `Procfile` and `requirements.txt` are already set up for this purpose.
+- Interactive data visualization
+- Economic impact analysis
+- COVID-19 case tracking
+- Statistical analysis tools
 
-## Data Sources
+## Technologies Used
 
-- COVID-19 data: [Our World in Data](https://ourworldindata.org/coronavirus)
-- Economic indicators: [Federal Reserve Economic Data (FRED)](https://fred.stlouisfed.org/)
+- Python 3.11
+- Dash
+- Plotly
+- Pandas
+- NumPy
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License
