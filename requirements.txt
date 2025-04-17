@@ -1,0 +1,11 @@
+pandas==2.0.3
+numpy==1.24.3
+requests==2.31.0
+plotly==5.18.0
+dash==2.14.1
+sqlalchemy==2.0.23
+pytest==7.4.3
+python-dotenv==1.0.0
+jupyter==1.0.0
+scipy==1.11.3
+statsmodels==0.14.0
