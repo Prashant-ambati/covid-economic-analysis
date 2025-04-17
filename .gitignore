@@ -24,7 +24,6 @@ wheels/
 venv/
 ENV/
 env/
-.env
 
 # IDE
 .idea/
@@ -32,17 +31,18 @@ env/
 *.swp
 *.swo
 
-# Project specific
-data/*.db
-data/*.csv
-*.log
-*.html
-*.sqlite3
-
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb
-
-# OS specific
+# OS
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
+
+# Local development
+.env
+.env.local
+
+# Heroku
+*.pid
+*.seed
+*.pid.lock
