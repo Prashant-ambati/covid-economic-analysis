@@ -24,7 +24,6 @@ wheels/
 venv/
 ENV/
 env/
-.env
 
 # IDE
 .idea/
@@ -32,17 +31,38 @@ env/
 *.swp
 *.swo
 
-# Project specific
-data/*.db
-data/*.csv
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
 *.log
-*.html
+
+# Database
+*.db
 *.sqlite3
+
+# Environment variables
+.env
+.env.local
 
 # Jupyter Notebook
 .ipynb_checkpoints
-*.ipynb
 
-# OS specific
-.DS_Store
-Thumbs.db
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
