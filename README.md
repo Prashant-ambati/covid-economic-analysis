@@ -78,4 +78,4 @@ Feel free to submit issues and enhancement requests!
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License & AWS License.
