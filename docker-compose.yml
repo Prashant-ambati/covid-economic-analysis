@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Dashboard service
+  dashboard:
+    build: .
+    container_name: covid-dashboard
+    ports:
+      - "8050:8050"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./exports:/app/exports
+    environment:
+      - DASHBOARD_HOST=0.0.0.0
+      - DASHBOARD_PORT=8050
+      - DASHBOARD_DEBUG=False
+      - LOG_LEVEL=INFO
+    command: python src/app.py
+    restart: unless-stopped
+    networks:
+      - covid-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8050"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # API service
+  api:
+    build: .
+    container_name: covid-api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./exports:/app/exports
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=5000
+      - API_DEBUG=False
+      - LOG_LEVEL=INFO
+      - CACHE_ENABLED=True
+      - CACHE_TTL=300
+    command: python src/api.py
+    restart: unless-stopped
+    networks:
+      - covid-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  covid-network:
+    driver: bridge
+
+volumes:
+  data:
+  logs:
+  exports:

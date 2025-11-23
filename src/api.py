@@ -3,9 +3,11 @@ REST API for COVID-19 Economic Impact Analysis
 Provides endpoints for accessing COVID-19 and economic data programmatically
 """
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from database import DatabaseManager
+from export import DataExporter
+from cache import cached, get_cache_stats, clear_cache
 import pandas as pd
 import logging
 from datetime import datetime, timedelta
@@ -23,8 +25,9 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# Initialize database manager
+# Initialize database manager and exporter
 db_manager = DatabaseManager()
+data_exporter = DataExporter()
 
 # API Configuration
 API_VERSION = "v1"
@@ -312,6 +315,103 @@ def get_trends():
     return jsonify({
         'status': 'success',
         'trends': trends
+    })
+
+
+@app.route(f'{API_PREFIX}/export', methods=['GET'])
+@handle_errors
+def export_data():
+    """
+    Export data in various formats
+    
+    Query Parameters:
+        - type: Data type (covid, economic, merged, all)
+        - format: Export format (json, csv, excel)
+        - country: Filter by country (optional)
+        - start_date: Start date (YYYY-MM-DD)
+        - end_date: End date (YYYY-MM-DD)
+    """
+    data_type = request.args.get('type', 'merged')
+    export_format = request.args.get('format', 'csv')
+    country = request.args.get('country')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    
+    # Validate parameters
+    if data_type not in ['covid', 'economic', 'merged', 'all']:
+        return jsonify({
+            'status': 'error',
+            'message': 'Invalid data type. Must be: covid, economic, merged, or all'
+        }), 400
+    
+    if export_format not in ['json', 'csv', 'excel']:
+        return jsonify({
+            'status': 'error',
+            'message': 'Invalid format. Must be: json, csv, or excel'
+        }), 400
+    
+    try:
+        # Export based on type
+        if data_type == 'covid':
+            filepath = data_exporter.export_covid_data(
+                format=export_format,
+                country=country,
+                start_date=start_date,
+                end_date=end_date
+            )
+        elif data_type == 'economic':
+            filepath = data_exporter.export_economic_data(
+                format=export_format,
+                start_date=start_date,
+                end_date=end_date
+            )
+        elif data_type == 'merged':
+            filepath = data_exporter.export_merged_data(
+                format=export_format,
+                country=country,
+                start_date=start_date,
+                end_date=end_date
+            )
+        elif data_type == 'all':
+            filepath = data_exporter.export_all(
+                format='excel',
+                start_date=start_date,
+                end_date=end_date
+            )
+        
+        # Return file for download
+        return send_file(
+            filepath,
+            as_attachment=True,
+            download_name=os.path.basename(filepath)
+        )
+        
+    except ValueError as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 404
+
+
+@app.route(f'{API_PREFIX}/cache/stats', methods=['GET'])
+@handle_errors
+def cache_stats():
+    """Get cache statistics"""
+    stats = get_cache_stats()
+    return jsonify({
+        'status': 'success',
+        'cache': stats
+    })
+
+
+@app.route(f'{API_PREFIX}/cache/clear', methods=['POST'])
+@handle_errors
+def clear_cache_endpoint():
+    """Clear the cache"""
+    clear_cache()
+    return jsonify({
+        'status': 'success',
+        'message': 'Cache cleared successfully'
     })
 
 

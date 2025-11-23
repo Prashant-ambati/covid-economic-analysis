@@ -5,6 +5,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-11-23
+
+### Added
+- **Configuration Management System** (`src/config.py`)
+  - Centralized configuration with environment variables
+  - Support for .env files
+  - Feature flags for easy feature toggling
+  - Automatic directory creation
+- **Data Export Functionality** (`src/export.py`)
+  - Export to JSON, CSV, and Excel formats
+  - CLI interface for exports
+  - API endpoint for data export
+  - Batch export capabilities
+- **Caching System** (`src/cache.py`)
+  - In-memory caching with TTL support
+  - Cache decorator for easy function caching
+  - Cache statistics and management
+  - LRU eviction policy
+- **CLI Tool** (`cli.py`)
+  - Unified command-line interface
+  - Commands for all major operations
+  - Project setup automation
+  - Database statistics viewer
+- **Docker Support**
+  - Dockerfile for containerization
+  - docker-compose.yml for multi-service deployment
+  - .dockerignore for optimized builds
+  - Health checks for services
+- **Deployment Documentation** (`DEPLOYMENT.md`)
+  - Local development guide
+  - Docker deployment instructions
+  - Cloud deployment guides (Heroku, AWS, Render)
+  - Production checklist
+- **Environment Configuration**
+  - .env.example template
+  - Comprehensive configuration options
+  - Production-ready defaults
+
+### Enhanced
+- API now includes export endpoints
+- API includes cache management endpoints
+- Updated README with new features
+- Improved project structure documentation
+
+### Dependencies
+- Added openpyxl for Excel export support
+
 ## [1.1.0] - 2025-11-22
 
 ### Added
